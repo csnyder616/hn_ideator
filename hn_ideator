@@ -8,13 +8,6 @@ require 'twitter'
 
 require './config.rb'
 
-twitter = Twitter::REST::Client.new do |config|
-  config.consumer_key        = HnIdeatorConfig::CONSUMER_KEY
-  config.consumer_secret     = HnIdeatorConfig::CONSUMER_SECRET
-  config.access_token        = HnIdeatorConfig::ACCESS_TOKEN
-  config.access_token_secret = HnIdeatorConfig::ACCESS_TOKEN_SECRET
-end
-
 WordNet::Lexicon.new
 
 $letters = [*'a'..'z']
@@ -58,6 +51,16 @@ def lang
   File.readlines("langs.txt").sample.strip
 end
 
-idea = "#{name}, #{adjective.indefinitize} #{noun} written in #{lang}."
+idea = "#{name} — #{adjective.indefinitize} #{noun} written in #{lang}."
 
-twitter.update(idea)
+if ARGV[0] == 'post'
+  twitter = Twitter::REST::Client.new do |config|
+    config.consumer_key        = HnIdeatorConfig::CONSUMER_KEY
+    config.consumer_secret     = HnIdeatorConfig::CONSUMER_SECRET
+    config.access_token        = HnIdeatorConfig::ACCESS_TOKEN
+    config.access_token_secret = HnIdeatorConfig::ACCESS_TOKEN_SECRET
+  end
+  twitter.update(idea)
+else
+  puts idea
+end
