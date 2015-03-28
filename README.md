@@ -6,7 +6,7 @@
 Anyone who regularly visits [Hacker News](http://news.ycombinator.com) has seen the *"Show HN: {proper noun} — a[n] {adjective} {noun} written in {trendy language}”* headlines. Inspired by a [HN comment](https://news.ycombinator.com/item?id=9280555) surmising that all HN project descriptions are really written by Markov chains, I decided to write a Twitter bot that generates “Show HN”-style headlines.
 
 ### Approach
-Since this bot generates headlines (rather than the longer project pages the original author described), I decided that a Madlib-style approach would be appropriate. It follows the following pattern:
+Since this bot generates headlines (rather than the longer project descriptions the original author described), I decided that a Madlib-style approach would be appropriate. It follows the following pattern:
 
 > Show HN: {proper noun} — a[n] {adjective} {noun} written in {language}
 
