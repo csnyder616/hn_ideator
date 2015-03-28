@@ -9,7 +9,7 @@ require './config.rb'
 
 WordNet::Lexicon.new
 
-$letters = [*'a'..'z']
+$letters = [*'a'..'z'] + ([*'a'..'z'].select { |x| x =~ /[^qxjyvzw]/ }) * 3
 $consonants = $letters.select { |x| x =~ /[^aeiou]/ }
 $vowels = $letters.select { |x| x =~ /[aeiouy]/ }
 
@@ -39,7 +39,13 @@ def name
 end
 
 def adjective
-  WordNet::Synset.adjectives.order(Sequel.lit('RANDOM()')).limit(1).all[0].words[0].lemma
+  adj = WordNet::Synset.adjectives.order(Sequel.lit('RANDOM()')).limit(1).all[0].words[0].lemma
+  if (rand(10) == 1)
+    adverb = WordNet::Synset.adverbs.order(Sequel.lit('RANDOM()')).limit(1).all[0].words[0].lemma
+    "#{adverb} #{adj}"
+  else
+    adj
+  end
 end
 
 def noun
