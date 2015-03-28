@@ -4,6 +4,16 @@
 
 require 'wordnet'
 require 'indefinite_article'
+require 'twitter'
+
+require './config.rb'
+
+twitter = Twitter::REST::Client.new do |config|
+  config.consumer_key        = HnIdeatorConfig::CONSUMER_KEY
+  config.consumer_secret     = HnIdeatorConfig::CONSUMER_SECRET
+  config.access_token        = HnIdeatorConfig::ACCESS_TOKEN
+  config.access_token_secret = HnIdeatorConfig::ACCESS_TOKEN_SECRET
+end
 
 WordNet::Lexicon.new
 
@@ -49,4 +59,5 @@ def lang
 end
 
 idea = "#{name}, #{adjective.indefinitize} #{noun} written in #{lang}."
-puts idea
+
+twitter.update(idea)

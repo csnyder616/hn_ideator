@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'wordnet'
 gem 'wordnet-defaultdb'
 gem 'indefinite_article'
+gem 'twitter'
 
 # prog_languages
 gem 'metainspector'
