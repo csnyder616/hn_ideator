@@ -52,7 +52,7 @@ def lang
   File.readlines("langs.txt").sample.strip
 end
 
-idea = "#{name} — #{adjective.indefinitize} #{noun} written in #{lang}."
+idea = "Show HN: #{name} — #{adjective.indefinitize} #{noun} written in #{lang}."
 
 if ARGV[0] == 'post'
   twitter = Twitter::REST::Client.new do |config|
