@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+
+#{proper noun}, a[n] {adjective} {noun} written in {language}
+
+require 'wordnet'
+require 'indefinite_article'
+
+WordNet::Lexicon.new
+
+$letters = [*'a'..'z']
+$consonants = $letters.select { |x| x =~ /[^aeiou]/ }
+$vowels = $letters.select { |x| x =~ /[aeiouy]/ }
+
+def next_letter(previous)
+  if $consonants.include?(previous)
+    ($consonants + $vowels * 10).sample
+  else
+    ($vowels + $consonants * 5).sample
+  end
+end
+
+def name
+  length = 4 + rand(14)
+  name = $letters.sample
+  until name.length == length do
+    name += next_letter(name[-1, 1])
+  end
+  for i in 0..(name.length - 1)
+    if i == 0 || rand(8) == 1
+      name[i] = name[i].capitalize
+    end
+  end
+  if rand(4) == 1
+    name += ['.ly', '.io', 'Box', 'App'].sample
+  end
+  name
+end
+
+def adjective
+  WordNet::Synset.adjectives.order(Sequel.lit('RANDOM()')).limit(1).all[0].words[0].lemma
+end
+
+def noun
+  WordNet::Synset.nouns.order(Sequel.lit('RANDOM()')).limit(1).all[0].words[0].lemma
+end
+
+def lang
+  File.readlines("langs.txt").sample.strip
+end
+
+idea = "#{name}, #{adjective.indefinitize} #{noun} written in #{lang}."
+puts idea

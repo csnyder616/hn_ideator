@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+# prog_languages: Retrieve list of programming languages from Wikipedia
+
+require 'metainspector'
+
+def prog_languages
+  langs = Array.new
+  page = MetaInspector.new("http://en.wikipedia.org/wiki/List_of_programming_languages")
+  page.parsed.css('#mw-content-text table.multicol li a:first-of-type').each do |item|
+    item.traverse do |node|
+      if node.text?
+        text = node.to_s
+        text.strip!
+        if text.length > 0
+          langs.push(text)
+        end
+      end
+    end
+  end
+  langs
+end
+
+def esoteric_languages
+  langs = Array.new
+  page = MetaInspector.new("http://en.wikipedia.org/wiki/Esoteric_programming_language")
+  # Argh this wouldn't be necessary if Wikipedia used proper semantic HTML5
+  begin_line = page.parsed.css('#Examples')[0].line
+  end_line = page.parsed.css('#Cultural_context_of_esolangs')[0].line
+  page.parsed.css('#mw-content-text h3 .mw-headline').each do |item|
+    if item.line < begin_line || item.line > end_line
+      next
+    end
+    item.traverse do |node|
+      if node.text?
+        text = node.to_s
+        text.strip!
+        if text.length > 0
+          langs.push(text)
+        end
+      end
+    end
+  end
+  langs
+end
+
+puts prog_languages + esoteric_languages
