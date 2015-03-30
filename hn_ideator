@@ -5,7 +5,6 @@ require 'wordnet'
 require 'indefinite_article'
 require 'twitter'
 require 'linguistics'
-require 'pp'
 
 require './config.rb'
 
