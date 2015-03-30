@@ -4,10 +4,13 @@
 require 'wordnet'
 require 'indefinite_article'
 require 'twitter'
+require 'linguistics'
+require 'pp'
 
 require './config.rb'
 
-WordNet::Lexicon.new
+$lexicon = WordNet::Lexicon.new
+Linguistics.use( :en )
 
 $letters = [*'a'..'z'] + ([*'a'..'z'].select { |x| x =~ /[^qxjyvzw]/ }) * 3
 $consonants = $letters.select { |x| x =~ /[^aeiou]/ }
@@ -52,11 +55,21 @@ def noun
   WordNet::Synset.nouns.order(Sequel.lit('RANDOM()')).limit(1).all[0].words[0].lemma
 end
 
+def verb
+  verb = ['written', 'created', 'crafted', 'conjured', 'incanted'].sample
+  if (rand(10) == 1)
+    adverb = WordNet::Synset.adverbs.order(Sequel.lit('RANDOM()')).limit(1).all[0].words[0].lemma
+    "#{adverb} #{verb}"
+  else
+    verb
+  end
+end
+
 def lang
   File.readlines("langs.txt").sample.strip
 end
 
-idea = "Show HN: #{name} — #{adjective.indefinitize} #{noun} written in #{lang}."
+idea = "Show HN: #{name} — #{adjective.indefinitize} #{noun}, #{verb} in #{lang}."
 
 if ARGV[0] == 'post'
   twitter = Twitter::REST::Client.new do |config|

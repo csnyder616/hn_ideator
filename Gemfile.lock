@@ -30,6 +30,8 @@ GEM
     indefinite_article (0.2.0)
       activesupport
     json (1.8.2)
+    linguistics (2.0.4)
+      loggability (~> 0.11)
     loggability (0.11.0)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -78,6 +80,7 @@ PLATFORMS
 
 DEPENDENCIES
   indefinite_article
+  linguistics
   metainspector
   twitter
   wordnet

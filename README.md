@@ -8,7 +8,7 @@ Anyone who regularly visits [Hacker News](http://news.ycombinator.com) has seen 
 ### Approach
 Since this bot generates headlines (rather than the longer project descriptions the original author described), I decided that a Madlib-style approach would be appropriate. It follows the following pattern:
 
-> Show HN: {proper noun} — a[n] {adjective} {noun} written in {language}
+> Show HN: {proper noun} — a[n] [{adverb}] {adjective} {noun}, [{adverb}] {verb} in {language}
 
 #### {proper noun}
 The goal here was to create a new “word” to describe the project:
@@ -18,8 +18,11 @@ The goal here was to create a new “word” to describe the project:
 1. Capitalize the first letter, as well as other characters at random for CamelCasing
 1. Occasionally add a trendy suffix like *.ly*, *Box*, etc.
 
-#### {adjective} and {noun}
-Uses [WordNet](https://wordnet.princeton.edu/) to get random characters from the needed part of speech, using [indefinite_article](https://github.com/rossmeissl/indefinite_article) to add the article before the adjective
+#### {adverb}s, {adjective} and {noun}
+Uses [WordNet](https://wordnet.princeton.edu/) to get random characters from the needed part of speech, using [indefinite_article](https://github.com/rossmeissl/indefinite_article) to add the article before the adverb or adjective
+
+#### {verb}
+Right now, it just picks from a pre-determined list. I tried to use WordNet to get synonyms (or words from the same domain as "written"), but I couldn't figure out how to get results that made any semblance of sense.
 
 #### {language}
 Picks a language at random from the included langs.txt. The languages were scraped (see the included prog_languages script) from the Wikipedia listings for [serious](http://en.wikipedia.org/wiki/List_of_programming_languages) and [esoteric](http://en.wikipedia.org/wiki/Esoteric_programming_language) programming languages.
